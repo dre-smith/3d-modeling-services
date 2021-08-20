@@ -20,19 +20,24 @@ window.addEventListener('DOMContentLoaded', function () {
             const timer = getTimeRemaining();
 
             const addZero = (number) => {
-                const doubleNumber = number <= 9 ? '0' + number : number;
-                return doubleNumber;
+                return number <= 9 ? '0' + number : number;
             };
 
             timerHours.textContent = addZero(timer.hours);
             timerMinutes.textContent = addZero(timer.minutes);
             timerSeconds.textContent = addZero(timer.seconds);
 
-            if (timer.timeRemaining > 0) {
-                setTimeout(updateClock, 1000);
+            if (timer.timeRemaining <= 0) {
+                clearInterval(timeInterval);
+            };
+
+            if (timer.hours <= 0 && timer.minutes <= 0 && timer.seconds <= 0) {
+                timerHours.textContent = "00";
+                timerMinutes.textContent = "00";
+                timerSeconds.textContent = "00";
             };
         };
-        updateClock();
+        const timeInterval = setInterval(updateClock, 1000);
     };
-    countTimer('20 August 2021');
+    countTimer('21 Aug 2021');
 });
