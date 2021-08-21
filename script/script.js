@@ -1,6 +1,7 @@
 window.addEventListener('DOMContentLoaded', function () {
     'use strict';
 
+    // Таймер
     const countTimer = (deadline) => {
         const timerHours = document.getElementById('timer-hours'),
             timerMinutes = document.getElementById('timer-minutes'),
@@ -39,5 +40,36 @@ window.addEventListener('DOMContentLoaded', function () {
         };
         const timeInterval = setInterval(updateClock, 1000);
     };
-    countTimer('21 Aug 2021');
+    countTimer('01 01 2022');
+
+    // Меню
+    const toggleMenu = () => {
+        const buttonMenu = document.querySelector('.menu'),
+            closeButton = document.querySelector('.close-btn'),
+            menu = document.querySelector('menu'),
+            menuItem = menu.querySelectorAll('ul>li');
+        const handlerMenu = () => {
+            menu.classList.toggle('active-menu');
+        };
+        buttonMenu.addEventListener('click', handlerMenu);
+        closeButton.addEventListener('click', handlerMenu);
+        menuItem.forEach((elem) => elem.addEventListener('click', handlerMenu));
+    };
+    toggleMenu();
+
+    //Всплывающее окно
+    const togglePopUp = () => {
+        const popUp = document.querySelector('.popup'),
+            popUpButton = document.querySelectorAll('.popup-btn'),
+            popUpClose = document.querySelector('.popup-close');
+        popUpButton.forEach((elem) => {
+            elem.addEventListener('click', () => {
+                popUp.style.display = 'block';
+            });
+        });
+        popUpClose.addEventListener('click', () => {
+            popUp.style.display = 'none';
+        });
+    };
+    togglePopUp();
 });
