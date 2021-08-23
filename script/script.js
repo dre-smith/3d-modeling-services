@@ -47,15 +47,47 @@ window.addEventListener('DOMContentLoaded', function () {
         const buttonMenu = document.querySelector('.menu'),
             closeButton = document.querySelector('.close-btn'),
             menu = document.querySelector('menu'),
-            menuItem = menu.querySelectorAll('ul>li');
-        const handlerMenu = () => {
-            menu.classList.toggle('active-menu');
+            menuItem = menu.querySelectorAll('ul>li'),
+            widthBody = document.querySelector('body').scrollWidth;
+
+        const addMenu = () => {
+            menu.style.display = 'flex';
+            const start = Date.now(),
+                timerMenu = setInterval(() => {
+                    const timePassed = Date.now() - start;
+                    if (widthBody >= 768) {
+                        menu.style.left = `${timePassed}px`;
+                        if (timePassed >= widthBody) {
+                            clearInterval(timerMenu);
+                        };
+                    } else {
+                        menu.style.left = `${widthBody}px`;
+                        clearInterval(timerMenu);
+                    };
+                });
         };
-        buttonMenu.addEventListener('click', handlerMenu);
-        closeButton.addEventListener('click', handlerMenu);
-        menuItem.forEach((elem) => elem.addEventListener('click', handlerMenu));
+
+        const removeMenu = () => {
+            menu.style.display = 'none';
+        };
+
+        buttonMenu.addEventListener('click', addMenu);
+        closeButton.addEventListener('click', removeMenu);
+        menuItem.forEach((elem) => elem.addEventListener('click', removeMenu));
     };
     toggleMenu();
+
+    //Кнопка
+    const mouseImage = document.querySelector('a[href^="#service-block"]');
+
+    mouseImage.addEventListener('click', (element) => {
+        element.preventDefault();
+        const goto = mouseImage.hasAttribute('href') ? mouseImage.getAttribute('href') : 'body';
+        document.querySelector(goto).scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    });
 
     //Всплывающее окно
     const togglePopUp = () => {
