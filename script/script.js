@@ -1,7 +1,7 @@
 window.addEventListener('DOMContentLoaded', function () {
     'use strict';
 
-    // Таймер
+    //Таймер
     const countTimer = (deadline) => {
         const timerHours = document.getElementById('timer-hours'),
             timerMinutes = document.getElementById('timer-minutes'),
@@ -42,7 +42,7 @@ window.addEventListener('DOMContentLoaded', function () {
     };
     countTimer('01 01 2022');
 
-    // Меню
+    //Меню
     const toggleMenu = () => {
         const buttonMenu = document.querySelector('.menu'),
             closeButton = document.querySelector('.close-btn'),
@@ -83,13 +83,17 @@ window.addEventListener('DOMContentLoaded', function () {
         });
         popUpClose.addEventListener('click', () => {
             popUp.style.opacity = 1;
-            const hideAnimate = setInterval(() => {
-                popUp.style.opacity -= 0.1;
-                if (popUp.style.opacity <= 0) {
-                    clearInterval(hideAnimate);
-                    popUp.style.display = 'none';
-                };
-            }, 25);
+            if (document.documentElement.scrollWidth > 768) {
+                const hideAnimate = setInterval(() => {
+                    popUp.style.opacity -= 0.1;
+                    if (popUp.style.opacity <= 0) {
+                        clearInterval(hideAnimate);
+                        popUp.style.display = 'none';
+                    };
+                }, 25);
+            } else {
+                popUp.style.display = 'none';
+            };
         });
     };
     togglePopUp();
