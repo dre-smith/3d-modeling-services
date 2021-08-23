@@ -59,16 +59,19 @@ window.addEventListener('DOMContentLoaded', function () {
     toggleMenu();
 
     //Кнопка
-    const mouseImage = document.querySelector('a[href^="#service-block"]');
-
-    mouseImage.addEventListener('click', (elem) => {
-        elem.preventDefault();
-        const goto = mouseImage.hasAttribute('href') ? mouseImage.getAttribute('href') : 'body';
-        document.querySelector(goto).scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-        });
-    });
+    const scrollBottom = () => {
+        const buttonScrollBottom = document.querySelector('a[href^="#service-block"]');
+        const scrollBottom = (elem) => {
+            elem.preventDefault();
+            const goto = buttonScrollBottom.hasAttribute('href') ? buttonScrollBottom.getAttribute('href') : 'body';
+            document.querySelector(goto).scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        };
+        buttonScrollBottom.addEventListener('click', scrollBottom);
+    };
+    scrollBottom();
 
     //Всплывающее окно
     const togglePopUp = () => {
