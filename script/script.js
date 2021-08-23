@@ -47,41 +47,22 @@ window.addEventListener('DOMContentLoaded', function () {
         const buttonMenu = document.querySelector('.menu'),
             closeButton = document.querySelector('.close-btn'),
             menu = document.querySelector('menu'),
-            menuItem = menu.querySelectorAll('ul>li'),
-            widthBody = document.querySelector('body').scrollWidth;
+            menuItems = menu.querySelectorAll('ul>li');
 
-        const addMenu = () => {
-            menu.style.display = 'flex';
-            const start = Date.now(),
-                timerMenu = setInterval(() => {
-                    const timePassed = Date.now() - start;
-                    if (widthBody >= 768) {
-                        menu.style.left = `${timePassed}px`;
-                        if (timePassed >= widthBody) {
-                            clearInterval(timerMenu);
-                        };
-                    } else {
-                        menu.style.left = `${widthBody}px`;
-                        clearInterval(timerMenu);
-                    };
-                });
+        const handlerMenu = () => {
+            menu.classList.toggle('active-menu');
         };
-
-        const removeMenu = () => {
-            menu.style.display = 'none';
-        };
-
-        buttonMenu.addEventListener('click', addMenu);
-        closeButton.addEventListener('click', removeMenu);
-        menuItem.forEach((elem) => elem.addEventListener('click', removeMenu));
+        buttonMenu.addEventListener('click', handlerMenu);
+        closeButton.addEventListener('click', handlerMenu);
+        menuItems.forEach((elem) => elem.addEventListener('click', handlerMenu));
     };
     toggleMenu();
 
     //Кнопка
     const mouseImage = document.querySelector('a[href^="#service-block"]');
 
-    mouseImage.addEventListener('click', (element) => {
-        element.preventDefault();
+    mouseImage.addEventListener('click', (elem) => {
+        elem.preventDefault();
         const goto = mouseImage.hasAttribute('href') ? mouseImage.getAttribute('href') : 'body';
         document.querySelector(goto).scrollIntoView({
             behavior: 'smooth',
@@ -97,10 +78,18 @@ window.addEventListener('DOMContentLoaded', function () {
         popUpButton.forEach((elem) => {
             elem.addEventListener('click', () => {
                 popUp.style.display = 'block';
+                popUp.style.opacity = 1;
             });
         });
         popUpClose.addEventListener('click', () => {
-            popUp.style.display = 'none';
+            popUp.style.opacity = 1;
+            const hideAnimate = setInterval(() => {
+                popUp.style.opacity -= 0.1;
+                if (popUp.style.opacity <= 0) {
+                    clearInterval(hideAnimate);
+                    popUp.style.display = 'none';
+                };
+            }, 25);
         });
     };
     togglePopUp();
