@@ -77,14 +77,14 @@ window.addEventListener('DOMContentLoaded', function () {
     const togglePopUp = () => {
         const popUp = document.querySelector('.popup'),
             popUpButton = document.querySelectorAll('.popup-btn'),
-            popUpClose = document.querySelector('.popup-close');
+            popUpClose = document.querySelector('.popup-close'); //позже удалить
         popUpButton.forEach((elem) => {
             elem.addEventListener('click', () => {
                 popUp.style.display = 'block';
                 popUp.style.opacity = 1;
             });
         });
-        popUpClose.addEventListener('click', () => {
+        popUpClose.addEventListener('click', () => { //перенести тело функции в строку № 105
             popUp.style.opacity = 1;
             if (document.documentElement.scrollWidth > 768) {
                 const hideAnimate = setInterval(() => {
@@ -98,6 +98,19 @@ window.addEventListener('DOMContentLoaded', function () {
                 popUp.style.display = 'none';
             };
         });
+        /*
+        popUp.addEventListener('click', (event) => {
+            let target = event.target;
+            if (target.classList.contains('popup-close')) {
+                popUp.style.display = 'none';
+            } else {
+                target = target.closest('.popup-content');
+                if (!target) {
+                    popUp.style.display = 'none';
+                };
+            };
+        });
+        */
     };
     togglePopUp();
 
