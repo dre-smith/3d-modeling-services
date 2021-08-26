@@ -281,7 +281,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 });
             };
             if (typeValue && squareValue) {
-                total = price * typeValue * squareValue * countValue * dayValue;
+                total = parseInt(price * typeValue * squareValue * countValue * dayValue);
             };
             totalValue.textContent = animateNumbers(total);
         };
