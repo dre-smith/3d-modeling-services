@@ -47,45 +47,52 @@ window.addEventListener('DOMContentLoaded', function () {
         const buttonMenu = document.querySelector('.menu'),
             closeButton = document.querySelector('.close-btn'),
             menu = document.querySelector('menu'),
-            menuItems = menu.querySelectorAll('ul>li');
+            menuItems = document.querySelectorAll('a[href^="#"]');
 
         const handlerMenu = () => {
             menu.classList.toggle('active-menu');
         };
         buttonMenu.addEventListener('click', handlerMenu);
         closeButton.addEventListener('click', handlerMenu);
-        menuItems.forEach((elem) => elem.addEventListener('click', handlerMenu));
-    };
-    toggleMenu();
 
-    //кнопка
-    const scrollBottom = () => {
-        const buttonScrollBottom = document.querySelector('a[href^="#service-block"]');
-        const scrollBottom = (elem) => {
-            elem.preventDefault();
-            const goto = buttonScrollBottom.hasAttribute('href') ? buttonScrollBottom.getAttribute('href') : 'body';
-            document.querySelector(goto).scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
+        for (let anchor of menuItems) {
+            anchor.addEventListener('click', (event) => {
+                event.preventDefault();
+                const id = anchor.getAttribute('href');
+                document.querySelector(id).scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                menu.classList.remove('active-menu');
             });
         };
-        buttonScrollBottom.addEventListener('click', scrollBottom);
     };
-    scrollBottom();
+    toggleMenu();
 
     //всплывающее окно
     const togglePopUp = () => {
         const popUp = document.querySelector('.popup'),
             popUpButton = document.querySelectorAll('.popup-btn'),
             popUpClose = document.querySelector('.popup-close'); //позже удалить
+
         popUpButton.forEach((elem) => {
             elem.addEventListener('click', () => {
                 popUp.style.display = 'block';
-                popUp.style.opacity = 1;
+                if (document.documentElement.scrollWidth > 768) {
+                    popUp.style.opacity = 0;
+                    const showAnimate = setInterval(() => {
+                        popUp.style.opacity = 0.1 + +(popUp.style.opacity);
+                        if (popUp.style.opacity >= 1) {
+                            clearInterval(showAnimate);
+                        };
+                    }, 25);
+                } else {
+                    popUp.style.opacity = 1;
+                };
             });
         });
-        popUpClose.addEventListener('click', () => { //перенести тело функции в строку № 105
-            popUp.style.opacity = 1;
+
+        popUpClose.addEventListener('click', () => { //блок 21: перенести в тело функции под строкой if (target.classList.contains('popup-close'))
             if (document.documentElement.scrollWidth > 768) {
                 const hideAnimate = setInterval(() => {
                     popUp.style.opacity -= 0.1;
