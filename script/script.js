@@ -270,14 +270,14 @@ window.addEventListener('DOMContentLoaded', function () {
             };
 
             const animateNumbers = () => {
-                let step = 0;
+                let steps = 0;
                 const changeNum = setInterval(() => {
-                    step += parseInt(total / 100);
-                    if (step >= total) {
+                    steps += parseInt(total / 100);
+                    if (steps >= total) {
                         clearInterval(changeNum);
-                        step = total;
+                        steps = total;
                     };
-                    totalValue.innerHTML = step;
+                    totalValue.innerHTML = steps;
                 });
             };
             if (typeValue && squareValue) {
