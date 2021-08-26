@@ -269,10 +269,10 @@ window.addEventListener('DOMContentLoaded', function () {
                 dayValue *= 1.5;
             };
 
-            const animateNumbers = (total) => {
+            const animateNumbers = () => {
                 let step = 0;
                 const changeNum = setInterval(() => {
-                    step += 10;
+                    step += parseInt(total / 100);
                     if (step >= total) {
                         clearInterval(changeNum);
                         step = total;
