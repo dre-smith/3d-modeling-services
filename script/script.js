@@ -48,7 +48,6 @@ window.addEventListener('DOMContentLoaded', function () {
             closeButton = document.querySelector('.close-btn'),
             menu = document.querySelector('menu'),
             nav = document.querySelectorAll('li a, main a');
-        console.log(nav)
 
         const handlerMenu = () => {
             menu.classList.toggle('active-menu');
@@ -330,8 +329,10 @@ window.addEventListener('DOMContentLoaded', function () {
     };
     command();
 
+    //формы
     const forms = () => {
-        const formInfo = document.querySelectorAll(`[id$='-name'], [id$='-message']`),
+        const allForms = document.querySelectorAll(`[id^='form']`),
+            formInfo = document.querySelectorAll(`[id$='-name'], [id$='-message']`),
             formEmail = document.querySelectorAll(`[id$='-email']`),
             formPhone = document.querySelectorAll(`[id$='-phone']`);
 
@@ -352,6 +353,16 @@ window.addEventListener('DOMContentLoaded', function () {
                 elem.value = elem.value.replace(/[^\d\-()]/g, '');
             });
         });
+
+        allForms.forEach((elem) => elem.addEventListener('blur', function (event) {
+            elem.value = elem.value.replace(/[^А-Яа-яЕё\-\s]/g, '');
+            elem.value = elem.value.replace(/\s{1,}/g, ' ');
+            elem.value = elem.value.replace(/\-{1,}/g, '-');
+            elem.value = elem.value.replace(/^[\s\-]+|[\s\-]+$/g, '');
+            elem.value = elem.value.replace(/(?:^|\s)\S/g, (val) => {
+                return val.toUpperCase();
+            });
+        }));
     };
     forms();
 });
