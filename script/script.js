@@ -47,7 +47,7 @@ window.addEventListener('DOMContentLoaded', function () {
         const buttonMenu = document.querySelector('.menu'),
             closeButton = document.querySelector('.close-btn'),
             menu = document.querySelector('menu'),
-            menuItems = document.querySelectorAll('a[href^="#"]');
+            nav = document.querySelectorAll('menu li, main a');
 
         const handlerMenu = () => {
             menu.classList.toggle('active-menu');
@@ -55,7 +55,7 @@ window.addEventListener('DOMContentLoaded', function () {
         buttonMenu.addEventListener('click', handlerMenu);
         closeButton.addEventListener('click', handlerMenu);
 
-        for (let anchor of menuItems) {
+        for (let anchor of nav) {
             anchor.addEventListener('click', (event) => {
                 event.preventDefault();
                 const id = anchor.getAttribute('href');
@@ -260,8 +260,15 @@ window.addEventListener('DOMContentLoaded', function () {
             calcType = document.querySelector('.calc-type'),
             calcSquare = document.querySelector('.calc-square'),
             calcDay = document.querySelector('.calc-day'),
+            calcInputs = calcBlock.querySelectorAll('.calc-block>input'),
             calcCount = document.querySelector('.calc-count'),
             totalValue = document.getElementById('total');
+
+        calcInputs.forEach((elem) => {
+            elem.addEventListener('input', () => {
+                elem.value = elem.value.replace(/\D/g, '');
+            });
+        });
 
         const countSum = () => {
             let total = 0,
@@ -320,5 +327,30 @@ window.addEventListener('DOMContentLoaded', function () {
             });
         });
     };
-    command()
+    command();
+
+    const forms = () => {
+        const formInfo = document.querySelectorAll(`[id$='-name'], [id$='-message']`),
+            formEmail = document.querySelectorAll(`[id$='-email']`),
+            formPhone = document.querySelectorAll(`[id$='-phone']`);
+
+        formInfo.forEach((elem) => {
+            elem.addEventListener('input', () => {
+                elem.value = elem.value.replace(/[^А-Яа-яЕё\-\s]/g, '');
+            });
+        });
+
+        formEmail.forEach((elem) => {
+            elem.addEventListener('input', () => {
+                elem.value = elem.value.replace(/[^A-Za-z@\-_\.!~*']/g, '');
+            });
+        });
+
+        formPhone.forEach((elem) => {
+            elem.addEventListener('input', () => {
+                elem.value = elem.value.replace(/[^\d\-()]/g, '');
+            });
+        });
+    };
+    forms();
 });
