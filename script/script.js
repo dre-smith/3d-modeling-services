@@ -356,6 +356,9 @@ window.addEventListener('DOMContentLoaded', function () {
                 };
                 elem.value = elem.value.replace(/[^A-Za-z@\-_\.!~*']/g, '').trim();
             });
+            elem.addEventListener('blur', () => {
+                elem.value = elem.value.replace(/^[\-]+|[\d\-]+$/g, '');
+            });
         });
 
         formPhone.forEach((elem) => {
