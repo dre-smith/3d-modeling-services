@@ -163,10 +163,12 @@ window.addEventListener('DOMContentLoaded', function () {
             const dots = document.createElement('li');
             dots.classList.add('dot');
             portfolioDots.append(dots);
+            if (portfolioItems[0]) {
+                document.querySelector('.dot').classList.add('dot-active');
+            };
         };
 
         const dot = document.querySelectorAll('.dot');
-        document.querySelector('.dot').classList.add('dot-active');
 
         let currentSlide = 0,
             interval;
@@ -303,4 +305,20 @@ window.addEventListener('DOMContentLoaded', function () {
         });
     };
     calc(100);
+
+    //команда
+    const command = () => {
+        const commandPhotos = document.querySelectorAll('.command__photo');
+
+        commandPhotos.forEach((elem, index) => {
+            const defaultCommandPhoto = document.querySelectorAll('.command__photo')[index].getAttribute('src');
+            elem.addEventListener('mouseenter', (event) => {
+                event.target.src = event.target.dataset.img;
+            });
+            elem.addEventListener('mouseleave', (event) => {
+                event.target.src = defaultCommandPhoto;
+            });
+        });
+    };
+    command()
 });
