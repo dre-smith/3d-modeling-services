@@ -252,8 +252,6 @@ window.addEventListener('DOMContentLoaded', function () {
     };
     slider();
 
-    //место для блока 23 
-
     //калькулятор
     const calc = (price = 100) => {
         const calcBlock = document.querySelector('.calc-block'),
@@ -331,20 +329,32 @@ window.addEventListener('DOMContentLoaded', function () {
 
     //формы
     const forms = () => {
-        const allForms = document.querySelectorAll(`[id^='form']`),
-            formInfo = document.querySelectorAll(`[id$='-name'], [id$='-message']`),
+        const formName = document.querySelectorAll(`[id$='-name']`),
             formEmail = document.querySelectorAll(`[id$='-email']`),
-            formPhone = document.querySelectorAll(`[id$='-phone']`);
+            formPhone = document.querySelectorAll(`[id$='-phone']`),
+            formMessage = document.getElementById('form2-message');
 
-        formInfo.forEach((elem) => {
+        formName.forEach((elem) => {
             elem.addEventListener('input', () => {
                 elem.value = elem.value.replace(/[^А-Яа-яЕё\-\s]/g, '');
+            });
+            elem.addEventListener('blur', () => {
+                elem.value = elem.value.replace(/\s+/g, ' ');
+                elem.value = elem.value.replace(/\-+/g, '-');
+                elem.value = elem.value.replace(/^[\s\-]+|[\s\-]+$/g, '');
+                elem.value = elem.value.replace(/(?:^|\s)\S/g, (val) => {
+                    return val.toUpperCase();
+                });
             });
         });
 
         formEmail.forEach((elem) => {
-            elem.addEventListener('input', () => {
-                elem.value = elem.value.replace(/[^A-Za-z@\-_\.!~*']/g, '');
+            elem.addEventListener('keydown', (event) => {
+                if (event.keyCode === 32) {
+                    event.preventDefault();
+                    return false;
+                };
+                elem.value = elem.value.replace(/[^A-Za-z@\-_\.!~*']/g, '').trim();
             });
         });
 
@@ -352,17 +362,21 @@ window.addEventListener('DOMContentLoaded', function () {
             elem.addEventListener('input', () => {
                 elem.value = elem.value.replace(/[^\d\-()]/g, '');
             });
+            elem.addEventListener('blur', () => {
+                elem.value = elem.value.replace(/\-{1,}/g, '-');
+                elem.value = elem.value.replace(/^[\s\-]+|[\s\-]+$/g, '');
+            });
         });
 
-        allForms.forEach((elem) => elem.addEventListener('blur', () => {
-            elem.value = elem.value.replace(/[^А-Яа-яЕё\-\s]/g, '');
-            elem.value = elem.value.replace(/\s{1,}/g, ' ');
-            elem.value = elem.value.replace(/\-{1,}/g, '-');
-            elem.value = elem.value.replace(/^[\s\-]+|[\s\-]+$/g, '');
-            elem.value = elem.value.replace(/(?:^|\s)\S/g, (val) => {
-                return val.toUpperCase();
-            });
-        }));
+        formMessage.addEventListener('input', () => {
+            formMessage.value = formMessage.value.replace(/[^А-Яа-яЕё\-\s]/g, '');
+        });
+
+        formMessage.addEventListener('blur', () => {
+            formMessage.value = formMessage.value.replace(/\s{1,}/g, ' ');
+            formMessage.value = formMessage.value.replace(/\-{1,}/g, '-');
+            formMessage.value = formMessage.value.replace(/^[\s\-]+|[\s\-]+$/g, '');
+        });
     };
     forms();
 });
