@@ -354,7 +354,7 @@ window.addEventListener('DOMContentLoaded', function () {
             });
         });
 
-        allForms.forEach((elem) => elem.addEventListener('blur', function (event) {
+        allForms.forEach((elem) => elem.addEventListener('blur', () => {
             elem.value = elem.value.replace(/[^А-Яа-яЕё\-\s]/g, '');
             elem.value = elem.value.replace(/\s{1,}/g, ' ');
             elem.value = elem.value.replace(/\-{1,}/g, '-');
