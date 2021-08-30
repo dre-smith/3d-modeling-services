@@ -45,7 +45,6 @@ window.addEventListener('DOMContentLoaded', function () {
     //меню
     const toggleMenu = () => {
         const buttonMenu = document.querySelector('.menu'),
-            closeButton = document.querySelector('.close-btn'),
             menu = document.querySelector('menu'),
             nav = document.querySelectorAll('li a, main a');
 
@@ -53,9 +52,15 @@ window.addEventListener('DOMContentLoaded', function () {
             menu.classList.toggle('active-menu');
         };
         buttonMenu.addEventListener('click', handlerMenu);
-        closeButton.addEventListener('click', handlerMenu);
 
-        for (let anchor of nav) {
+        menu.addEventListener('click', (event) => {
+            let target = event.target;
+            if (target.classList.contains('close-btn')) {
+                menu.classList.toggle('active-menu');
+            };
+        });
+
+        for (const anchor of nav) {
             anchor.addEventListener('click', (event) => {
                 event.preventDefault();
                 const id = anchor.getAttribute('href');
@@ -72,8 +77,7 @@ window.addEventListener('DOMContentLoaded', function () {
     //всплывающее окно
     const togglePopUp = () => {
         const popUp = document.querySelector('.popup'),
-            popUpButton = document.querySelectorAll('.popup-btn'),
-            popUpClose = document.querySelector('.popup-close'); //позже удалить
+            popUpButton = document.querySelectorAll('.popup-btn');
 
         popUpButton.forEach((elem) => {
             elem.addEventListener('click', () => {
@@ -92,32 +96,30 @@ window.addEventListener('DOMContentLoaded', function () {
             });
         });
 
-        popUpClose.addEventListener('click', () => { //блок 21: перенести в тело функции под строкой if (target.classList.contains('popup-close'))
-            if (document.documentElement.scrollWidth > 768) {
-                const hideAnimate = setInterval(() => {
-                    popUp.style.opacity -= 0.1;
-                    if (popUp.style.opacity <= 0) {
-                        clearInterval(hideAnimate);
-                        popUp.style.display = 'none';
-                    };
-                }, 25);
-            } else {
-                popUp.style.display = 'none';
-            };
-        });
-        /*
         popUp.addEventListener('click', (event) => {
             let target = event.target;
-            if (target.classList.contains('popup-close')) {
-                popUp.style.display = 'none';
-            } else {
-                target = target.closest('.popup-content');
-                if (!target) {
+            const popUpClose = () => {
+                if (document.documentElement.scrollWidth > 768) {
+                    const hideAnimate = setInterval(() => {
+                        popUp.style.opacity -= 0.1;
+                        if (popUp.style.opacity <= 0) {
+                            clearInterval(hideAnimate);
+                            popUp.style.display = 'none';
+                        };
+                    }, 25);
+                } else {
                     popUp.style.display = 'none';
                 };
             };
+            if (target.classList.contains('popup-close')) {
+                popUpClose();
+            } else {
+                target = target.closest('.popup-content');
+                if (!target) {
+                    popUpClose();
+                };
+            };
         });
-        */
     };
     togglePopUp();
 
