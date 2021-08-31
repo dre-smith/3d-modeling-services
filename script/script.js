@@ -1,6 +1,13 @@
 window.addEventListener('DOMContentLoaded', function () {
     'use strict';
 
+    const scrollTo = (elem) => {
+        document.querySelector(elem).scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    };
+
     //таймер
     const countTimer = (deadline) => {
         const timerHours = document.getElementById('timer-hours'),
@@ -44,7 +51,8 @@ window.addEventListener('DOMContentLoaded', function () {
 
     //меню
     const toggleMenu = () => {
-        const buttonMenu = document.querySelector('.menu'),
+        const body = document.querySelector('body'),
+            buttonMenu = document.querySelector('.menu'),
             menu = document.querySelector('menu'),
             nav = document.querySelectorAll('li a, main a');
 
@@ -53,24 +61,28 @@ window.addEventListener('DOMContentLoaded', function () {
         };
         buttonMenu.addEventListener('click', handlerMenu);
 
-        menu.addEventListener('click', (event) => {
+        body.addEventListener('click', (event) => {
             let target = event.target;
-            if (target.classList.contains('close-btn')) {
-                menu.classList.toggle('active-menu');
-            };
-        });
 
-        for (const anchor of nav) {
-            anchor.addEventListener('click', (event) => {
+            if (target.closest('menu')) {
                 event.preventDefault();
-                const id = anchor.getAttribute('href');
-                document.querySelector(id).scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-                menu.classList.remove('active-menu');
-            });
-        };
+                if (target.closest('.close-btn')) {
+                    menu.classList.remove('active-menu');
+                };
+                if (target.closest('menu ul li a')) {
+                    scrollTo(target.getAttribute('href'));
+                    menu.classList.remove('active-menu');
+                };
+            } else {
+                if (target.closest('.menu')) {
+                    menu.classList.add('active-menu');
+                } else {
+                    menu.classList.remove('active-menu');
+                }
+            }
+
+
+        });
     };
     toggleMenu();
 
