@@ -52,36 +52,36 @@ window.addEventListener('DOMContentLoaded', function () {
     //меню
     const toggleMenu = () => {
         const body = document.querySelector('body'),
-            buttonMenu = document.querySelector('.menu'),
-            menu = document.querySelector('menu'),
-            nav = document.querySelectorAll('li a, main a');
+            menu = document.querySelector('menu');
 
         const handlerMenu = () => {
-            menu.classList.toggle('active-menu');
+            menu.classList.remove('active-menu');
         };
-        buttonMenu.addEventListener('click', handlerMenu);
 
         body.addEventListener('click', (event) => {
             let target = event.target;
-
             if (target.closest('menu')) {
                 event.preventDefault();
                 if (target.closest('.close-btn')) {
-                    menu.classList.remove('active-menu');
+                    handlerMenu();
                 };
                 if (target.closest('menu ul li a')) {
                     scrollTo(target.getAttribute('href'));
-                    menu.classList.remove('active-menu');
+                    handlerMenu();
                 };
             } else {
                 if (target.closest('.menu')) {
                     menu.classList.add('active-menu');
                 } else {
-                    menu.classList.remove('active-menu');
-                }
-            }
-
-
+                    handlerMenu();
+                };
+            };
+            if (target.closest('main')) {
+                event.preventDefault();
+                if (target.closest('main a')) {
+                    scrollTo(target.closest('main a').getAttribute('href'));
+                };
+            };
         });
     };
     toggleMenu();
