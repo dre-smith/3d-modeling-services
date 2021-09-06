@@ -351,12 +351,11 @@ window.addEventListener('DOMContentLoaded', function () {
 
         formName.forEach((elem) => {
             elem.addEventListener('input', () => {
-                elem.value = elem.value.replace(/[^А-Яа-яЕё\-\s]/g, '');
+                elem.value = elem.value.replace(/[^А-Яа-яЕё\s]/g, '');
             });
             elem.addEventListener('blur', () => {
                 elem.value = elem.value.replace(/\s+/g, ' ');
-                elem.value = elem.value.replace(/\-+/g, '-');
-                elem.value = elem.value.replace(/^[\s\-]+|[\s\-]+$/g, '');
+                elem.value = elem.value.replace(/^[\s]+|[\s]+$/g, '');
                 elem.value = elem.value.replace(/(?:^|\s)\S/g, (val) => {
                     return val.toUpperCase();
                 });
@@ -378,75 +377,74 @@ window.addEventListener('DOMContentLoaded', function () {
 
         formPhone.forEach((elem) => {
             elem.addEventListener('input', () => {
-                elem.value = elem.value.replace(/[^\d\-()]/g, '');
-            });
-            elem.addEventListener('blur', () => {
-                elem.value = elem.value.replace(/\-{1,}/g, '-');
-                elem.value = elem.value.replace(/^[\s\-]+|[\s\-]+$/g, '');
+                elem.value = elem.value.replace(/[^0-9\+]/g, '');
             });
         });
 
         formMessage.addEventListener('input', () => {
-            formMessage.value = formMessage.value.replace(/[^А-Яа-яЕё\-\s]/g, '');
+            formMessage.value = formMessage.value.replace(/[^А-Яа-яЕё\d\-\s,.!?]/g, '');
         });
 
         formMessage.addEventListener('blur', () => {
             formMessage.value = formMessage.value.replace(/\s{1,}/g, ' ');
             formMessage.value = formMessage.value.replace(/\-{1,}/g, '-');
-            formMessage.value = formMessage.value.replace(/^[\s\-]+|[\s\-]+$/g, '');
+            formMessage.value = formMessage.value.replace(/\.{1,}/g, '.');
+            formMessage.value = formMessage.value.replace(/^[\s]+|[\s]+$/g, '');
         });
     };
     forms();
 
-    //отправка аякс-формы
     const sendForm = () => {
-        const errorMessage = 'Что-то пошло не так...',
+        const errorMessage = 'Что-то пошло нет так...',
             loadMessage = 'Загрузка...',
-            successMessage = 'Спасибо! Мы скоро с вами свяжемся!';
+            successMesage = 'Спасибо! Мы скоро с вами свяжемся!',
+            forms = document.querySelectorAll('form'),
+            statusMessage = document.createElement('div');
 
-        const form = document.getElementById('form1');
+        statusMessage.style.cssText = 'font-size: 2rem';
+        statusMessage.style.cssText = 'color: #fff';
 
-        const statusMessage = document.createElement('div');
-        statusMessage.style.cssText = 'font-size: 2rem;';
+        forms.forEach((elem) => {
+            elem.addEventListener('submit', (event) => {
+                const input = elem.querySelectorAll('input');
+                event.preventDefault();
+                elem.appendChild(statusMessage);
+                statusMessage.textContent = loadMessage;
+                const formData = new FormData(elem);
+                let body = {};
+                formData.forEach((val, key) => {
+                    body[key] = val;
+                });
 
-        form.addEventListener('submit', (event) => {
-            event.preventDefault();
-            form.appendChild(statusMessage);
-            statusMessage.textContent = loadMessage;
-            const formData = new FormData(form);
-            let body = {};
-            formData.forEach((val, key) => {
-                body[key] = val;
-            });
-            postData(body,
-                () => {
-                    statusMessage.textContent = successMessage;
-                },
-                (error) => {
+                const postData = (body, outputData, errorData) => {
+                    const request = new XMLHttpRequest();
+                    request.addEventListener('readystatechange', () => {
+                        if (request.readyState !== 4) {
+                            return;
+                        };
+                        if (request.status === 200) {
+                            outputData();
+                        } else {
+                            errorData(request.status);
+                        };
+                    });
+                    request.open('POST', './server.php');
+                    request.setRequestHeader('Content-Type', 'application/json');
+                    request.send(JSON.stringify(body));
+                };
+
+                postData(body, () => {
+                    statusMessage.textContent = successMesage;
+                }, () => {
                     statusMessage.textContent = errorMessage;
-                    //console.error(error)
-                }
-            );
-        });
+                });
 
-        const postData = (body, outputData, errorData) => {
-            const request = new XMLHttpRequest();
-            request.addEventListener('readystatechange', () => {
-                if (request.readyState !== 4) {
-                    return;
-                };
-                if (request.status === 200) {
-                    outputData();
-                } else {
-                    errorData(request.status);
-                };
+                input.forEach((input) => {
+                    input.value = '';
+                });
+
             });
-
-            request.open('POST', './server.php');
-            request.setRequestHeader('Content-Type', 'application/json');
-
-            request.send(JSON.stringify(body));
-        };
+        });
     };
     sendForm();
 });
