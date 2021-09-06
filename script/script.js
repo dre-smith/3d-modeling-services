@@ -395,7 +395,7 @@ window.addEventListener('DOMContentLoaded', function () {
     forms();
 
     const sendForm = () => {
-        const errorMessage = 'Что-то пошло нет так...',
+        const errorMessage = 'Что-то пошло не так...',
             loadMessage = 'Загрузка...',
             successMessage = 'Спасибо! Мы скоро с вами свяжемся!',
             forms = document.querySelectorAll('form'),
