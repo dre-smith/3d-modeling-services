@@ -397,7 +397,7 @@ window.addEventListener('DOMContentLoaded', function () {
     const sendForm = () => {
         const errorMessage = 'Что-то пошло нет так...',
             loadMessage = 'Загрузка...',
-            successMesage = 'Спасибо! Мы скоро с вами свяжемся!',
+            successMessage = 'Спасибо! Мы скоро с вами свяжемся!',
             forms = document.querySelectorAll('form'),
             statusMessage = document.createElement('div');
 
@@ -434,7 +434,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 };
 
                 postData(body, () => {
-                    statusMessage.textContent = successMesage;
+                    statusMessage.textContent = successMessage;
                 }, () => {
                     statusMessage.textContent = errorMessage;
                 });
