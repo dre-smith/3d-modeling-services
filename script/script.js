@@ -77,8 +77,9 @@ window.addEventListener('DOMContentLoaded', function () {
                 };
             };
             if (target.closest('main')) {
-                event.preventDefault();
+
                 if (target.closest('main a')) {
+                    event.preventDefault();
                     scrollTo(target.closest('main a').getAttribute('href'));
                 };
             };
