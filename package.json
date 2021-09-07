@@ -1,0 +1,28 @@
+{
+  "name": "3dglo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack.prod.config.js",
+    "dev": "webpack serve --config webpack.dev.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dre-smith/3d-modeling-services.git"
+  },
+  "author": "Andrey Kuznetsov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dre-smith/3d-modeling-services/issues"
+  },
+  "homepage": "https://github.com/dre-smith/3d-modeling-services#readme",
+  "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "babel-loader": "^8.2.2",
+    "webpack": "^5.35",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^3.11.2"
+  }
+}
