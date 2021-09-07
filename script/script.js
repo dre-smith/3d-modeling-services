@@ -416,33 +416,29 @@ window.addEventListener('DOMContentLoaded', function () {
                     body[key] = val;
                 });
 
-                const postData = (body, outputData, errorData) => {
-                    const request = new XMLHttpRequest();
-                    request.addEventListener('readystatechange', () => {
-                        if (request.readyState !== 4) {
-                            return;
-                        };
-                        if (request.status === 200) {
-                            outputData();
-                        } else {
-                            errorData(request.status);
-                        };
+                const postData = (body) => {
+                    return fetch('./server.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(body),
                     });
-                    request.open('POST', './server.php');
-                    request.setRequestHeader('Content-Type', 'application/json');
-                    request.send(JSON.stringify(body));
                 };
-
-                postData(body, () => {
-                    statusMessage.textContent = successMessage;
-                }, () => {
-                    statusMessage.textContent = errorMessage;
-                });
-
-                input.forEach((input) => {
-                    input.value = '';
-                });
-
+                postData(body)
+                    .then((response) => {
+                        if (response.status !== 200) {
+                            throw new Error('status network not 200');
+                        };
+                        statusMessage.textContent = successMessage;
+                        input.forEach((input) => {
+                            input.value = '';
+                        });
+                    })
+                    .catch((error) => {
+                        statusMessage.textContent = errorMessage;
+                        console.error(error);
+                    });
             });
         });
     };
