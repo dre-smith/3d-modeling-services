@@ -31,6 +31,7 @@ const forms = () => {
     });
 
     formPhone.forEach((elem) => {
+        elem.maxLength = 16;
         elem.addEventListener('input', () => {
             elem.value = elem.value.replace(/[^0-9\+]/g, '');
         });
