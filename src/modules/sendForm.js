@@ -35,6 +35,7 @@ const sendForm = () => {
                         throw new Error('status network not 200');
                     };
                     statusMessage.textContent = successMessage;
+                    setTimeout(() => (statusMessage.textContent = ''), 3000);
                     input.forEach((input) => {
                         input.value = '';
                     });
@@ -42,6 +43,7 @@ const sendForm = () => {
                 .catch((error) => {
                     statusMessage.textContent = errorMessage;
                     console.error(error);
+                    setTimeout(() => (statusMessage.textContent = ''), 3000);
                 });
         });
     });
