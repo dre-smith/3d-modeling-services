@@ -7,11 +7,14 @@ const calc = (price = 100) => {
         calcCount = document.querySelector('.calc-count'),
         totalValue = document.getElementById('total');
 
-    calcInputs.forEach((elem) => {
-        elem.addEventListener('input', () => {
-            elem.value = elem.value.replace(/\D/g, '');
+    const resetInputs = () => {
+        calcInputs.forEach((elem) => {
+            elem.value = '';
+            elem.addEventListener('input', () => {
+                elem.value = elem.value.replace(/\D/g, '');
+            });
         });
-    });
+    };
 
     const countSum = () => {
         let total = 0,
@@ -53,6 +56,8 @@ const calc = (price = 100) => {
             countSum()
         };
     });
+
+    calcType.addEventListener('change', resetInputs);
 };
 
 export default calc;

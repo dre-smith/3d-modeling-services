@@ -35,6 +35,11 @@ const forms = () => {
         elem.addEventListener('input', () => {
             elem.value = elem.value.replace(/[^0-9\+]/g, '');
         });
+        elem.addEventListener('blur', () => {
+            if (elem.value.length < 10) {
+                elem.value = '';
+            };
+        });
     });
 
     formMessage.addEventListener('input', () => {
